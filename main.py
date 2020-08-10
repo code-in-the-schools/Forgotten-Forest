@@ -2,6 +2,7 @@ import pygame
 import os
 import walls
 import enemy
+import player2
 
 class Character():
   def __init__(self):
@@ -47,6 +48,7 @@ while running:
       running = False
   
   Screen.fill((255,255,255))
+  Sprite.movement(screen_width,screen_height)
   Sprite.Gravity(screen_width)
   Sprite.draw(Screen)
 
