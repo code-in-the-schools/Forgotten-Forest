@@ -1,26 +1,32 @@
 import pygame
+import os
 
+win = pygame.display.set_mode((500,500))
 
 BLUE= ((0, 255, 255))
 
-class Wall(object):
-  def __init__(self):
-    super().__init__()
-    
-    self.rect = pygame.image.load("brickwall.png")
-    self.rect.y = 0
-    self.rect.x = 0
+class Wall(pygame.sprite.Sprite):
+    def __init__(self):
+        # Init.
+        pygame.sprite.Sprite.__init__(self)
+        self.x = 0
+        self.y = 0
+        self.height = screen_height
+        self.width = screen_width
+        self.color = BLUE
+        self.screen = screen
+        # Create
+        self.image = pygame.Surface([self.width, self.height])
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
 
-  def draw(self,surface, x, y, width, height):
-    self.image = pygame.transform.scale(self.image,(width, height))
-    self.rect.y = y
-    self.rect.x = x
-    surface.blit(self.image, (self.rect.x, self.rect.y))
+    def draw(self, surface):
+        pygame.draw.rect(self.screen, self.color, [self.x, self.y, self.width, self.height], 0)
 
 pygame.init()
 
-screen_width = 800
-screen_height = 800
+screen_width = 700
+screen_height = 700
 screen = pygame.display.set_mode((screen_width,screen_height))
 
 pygame.display.set_caption('Test')
@@ -28,16 +34,22 @@ all_sprite_list = pygame.sprite.Group()
 
 wall_list = pygame.sprite.Group()
 
-wall = Wall(0,0,0,0)
-wall_list.add(wall)
-all_sprite_list.add(wall)
-
 #player = Player(50, 50)
 #player.walls = wall_list 
 
 #all_sprite_list.add(player)
 
 clock = pygame.time.Clock()
-
+Sprite = Wall()
 done = False
+
+running = True
+while running:
+  for event in pygame.event.get():
+    if event.type ==  pygame.QUIT:
+      pygame.quit()
+      running = False
+  Sprite.draw(win)
+  pygame.display.update()
+  win.fill((480,480,500))
 

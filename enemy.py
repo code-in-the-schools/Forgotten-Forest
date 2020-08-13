@@ -1,48 +1,63 @@
 import pygame
-class Enemy():
+import os
+ 
+win = pygame.display.set_mode((500,500))#screen
 
-  win = pygame.display.set.mode((500,600))
-pygame.display.set__caption("First game")
-walkright = [pygame.image('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'),pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image')]
-walkLeft = [pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image'), pygame.image.load('enemy.image')]
-char = pygame.image.load('Standing.png')
+class enemy(object):
+  walkRight = [pygame.image.load('enemy.png')]
+  walkLeft = [pygame.image.load('enemy.png')]
+  def __init__(self):
+    pygame.sprite.Sprite.__init__(self)
+    enemy.image = pygame.image.load("enemy.png")
+    self.image = enemy.image
+    self.image = pygame.transform.scale(self.image,(200,200))
+  def __init__(self, x, y, width, height, end):
+      self.x = 50
+      self.y = 50
+      self.width = 500
+      self.height = 500
+      self.path = [x, end]
+      #self.walkCount = 0
+      self.vel = 3
+
+#def draw####
+  def draw(self, surface):
+    self.move(self.width, self.height)
+             
+  def move(self, width, height):
+    if self.vel > 0:
+      if self.x < self.path[1] + self.vel:
+        self.x += self.vel
+      else:
+        self.vel = self.vel * -1
+        self.x += self.vel
+        #self.walkCount = 0
+    else:
+      if self.x > self.path[0] - self.vel:
+        self.x += self.vel
+      else:
+        self.vel = self.vel * -1
+        self.x += self.vel
+        #self.walkCount = 0
+
+pygame.init()
+enemy = enemy(100, 410, 64, 64, 300)
 clock = pygame.time.Clock()
+screen_width = 500
+screen_height = 500
+running = True
+Screen = pygame.display.set_mode((screen_height,screen_width))
 
-class player(object):
-    def __init__(self,x,y,width,height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.left = True
-        self.right = True
-        self.walkCount = 0
-        self.standing = True
-        if not(self.standing):
-            if self.left:
-                 win.blit(walkLeft[self.walkCount//3], (self.x,self.y))
-                 
-            elif self.right:
-                win.blit(walkRight[self.walkCount//3], (self.x,self.y))
-                self.walkCount +=1
-        else:
-            if self.right:
-                win.blit(walkRight[0], (self.x, self.y))
-            else:
-                win.blit(walkLeft[0], (self.x, self.y))
+while running: #
+  for event in pygame.event.get():
+    if event.type== pygame.QUIT:
+      pygame.quit()
+      running = False
 
+  win.fill((255,255,255))
+  enemy.draw(win)
+  pygame.display.update()
+  enemy.move(screen_width, screen_height)
 
-
-                class projectile(object):
-      def __init__(self,x,y,radius,color,facing):
-          self.x = x
-          self.y = y
-          self.radius = radius
-          self.color = color
-          self.facing = facing
-        
-
-
-
-
-
+  clock.tick(60)
+  
